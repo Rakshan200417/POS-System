@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark-base text-slate-200 min-h-screen font-sans;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-glass;
+  }
+
+  .glass-input {
+    @apply bg-white/5 border border-white/10 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all;
+  }
+
+  .btn-neon {
+    @apply px-6 py-2 rounded-xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95;
+  }
+
+  .btn-primary {
+    @apply btn-neon bg-neon-gradient text-white shadow-neon-blue hover:shadow-primary/40;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    margin: 0 auto;
+    padding: 10px;
+    background: white !important;
+    color: black !important;
+    font-family: 'Courier New', Courier, monospace !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* --- LIGHT MODE OVERRIDES --- */
+/* Base */
+.light body {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+/* Backgrounds */
+.light .bg-dark-base, 
+.light .bg-dark-base\/50 {
+    background-color: #f1f5f9 !important;
+}
+
+.light .bg-slate-800, 
+.light .bg-slate-900 {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* Glass & Cards */
+.light .glass-card {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.05), 0 2px 6px -2px rgba(0, 0, 0, 0.025) !important;
+}
+
+.light .glass-input {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+.light .glass-input:focus {
+    border-color: #0284c7 !important;
+    box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2) !important;
+}
+
+.light .bg-white\/5, 
+.light .bg-white\/10 {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* Typography Overrides */
+.light .text-white {
+    color: #0f172a !important;
+}
+.light .text-slate-200, 
+.light .text-slate-300 {
+    color: #334155 !important;
+}
+.light .text-slate-400 {
+    color: #64748b !important;
+}
+
+/* Primary Accents for Light Mode */
+.light .text-primary {
+    color: #0284c7 !important; /* Deep Sky Blue for readability */
+}
+.light .bg-primary\/20 {
+    background-color: #e0f2fe !important;
+    border-color: #bae6fd !important;
+}
+.light .shadow-neon-blue {
+    box-shadow: 0 4px 14px 0 rgba(2, 132, 199, 0.2) !important;
+}
+.light .bg-neon-gradient {
+    background-image: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%) !important;
+}
+
+/* Borders & Hover States */
+.light .border-white\/5, 
+.light .border-white\/10, 
+.light .border-white\/20, 
+.light .border-slate-800 {
+    border-color: #e2e8f0 !important;
+}
+
+.light .hover\:bg-white\/5:hover, 
+.light .hover\:bg-white\/10:hover {
+    background-color: #e2e8f0 !important;
+}
+
+.light .hover\:text-white:hover {
+    color: #0f172a !important;
+}

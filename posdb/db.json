@@ -1,0 +1,127 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Fresh Fuji Apples",
+            "price": 3.99,
+            "category": "Fresh Produce",
+            "stock": 150,
+            "barcode": "50001",
+            "unit": "kg",
+            "sales": 12
+        },
+        {
+            "id": 2,
+            "name": "Organic Whole Milk",
+            "price": 4.50,
+            "category": "Dairy",
+            "stock": 45,
+            "barcode": "50002",
+            "unit": "pack",
+            "sales": 8
+        },
+        {
+            "id": 3,
+            "name": "Artisan Sourdough",
+            "price": 5.20,
+            "category": "Bakery",
+            "stock": 20,
+            "barcode": "50003",
+            "unit": "pcs",
+            "sales": 15
+        },
+        {
+            "id": 4,
+            "name": "Premium Ground Coffee",
+            "price": 12.00,
+            "category": "Pantry",
+            "stock": 35,
+            "barcode": "50004",
+            "unit": "pack",
+            "sales": 5
+        },
+        {
+            "id": 5,
+            "name": "Greek Yogurt (Plain)",
+            "price": 6.50,
+            "category": "Dairy",
+            "stock": 60,
+            "barcode": "50005",
+            "unit": "pcs",
+            "sales": 22
+        },
+        {
+            "id": 6,
+            "name": "Red Bell Peppers",
+            "price": 2.50,
+            "category": "Fresh Produce",
+            "stock": 80,
+            "barcode": "50006",
+            "unit": "kg",
+            "sales": 30
+        },
+        {
+            "id": 7,
+            "name": "Free Range Eggs (12pk)",
+            "price": 7.99,
+            "category": "Dairy",
+            "stock": 40,
+            "barcode": "50007",
+            "unit": "pack",
+            "sales": 18
+        }
+    ],
+    "sales": [
+        {
+            "id": 1,
+            "items": [
+                {
+                    "id": 1,
+                    "name": "Fresh Fuji Apples",
+                    "price": 3.99,
+                    "quantity": 2
+                },
+                {
+                    "id": 3,
+                    "name": "Artisan Sourdough",
+                    "price": 5.20,
+                    "quantity": 1
+                }
+            ],
+            "totals": {
+                "subtotal": 13.18,
+                "tax": 1.32,
+                "total": 14.50
+            },
+            "customerId": 1,
+            "customerName": "Alex Rivera",
+            "timestamp": "2026-01-24T12:00:00.000Z"
+        }
+    ],
+    "customers": [
+        {
+            "id": 1,
+            "name": "Alex Rivera",
+            "email": "alex@supermarket.net",
+            "phone": "+1 555-0101",
+            "points": 145,
+            "lastOrder": "2026-01-24"
+        },
+        {
+            "id": 2,
+            "name": "Sarah Chen",
+            "email": "s.chen@foodie.com",
+            "phone": "+1 555-0102",
+            "points": 320,
+            "lastOrder": "2026-01-22"
+        },
+        {
+            "id": 3,
+            "name": "Marcus Knight",
+            "email": "m.knight@home.org",
+            "phone": "+1 555-0103",
+            "points": 85,
+            "lastOrder": "2026-01-15"
+        }
+    ]
+}
