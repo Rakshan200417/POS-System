@@ -18,13 +18,17 @@ const ProductsPage = () => {
     const [loading, setLoading] = useState(true);
     const [showAddForm, setShowAddForm] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
-    const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '', stock: '', barcode: '', unit: 'pcs', memberDiscountPercentage: 0 });
+    const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '', stock: '', barcode: '', unit: 'pcs', memberDiscountPercentage: 0, imageUrl: '' });
 
     const mockProducts = [
-        { id: 1, name: 'Fresh Fuji Apples', price: 3.99, category: 'Fresh Produce', stock: 150, sku: '50001', barcode: '50001', unit: 'kg' },
-        { id: 2, name: 'Organic Whole Milk', price: 4.50, category: 'Dairy', stock: 45, sku: '50002', barcode: '50002', unit: 'pack' },
-        { id: 3, name: 'Artisan Sourdough', price: 5.20, category: 'Bakery', stock: 20, sku: '50003', barcode: '50003', unit: 'pcs' },
-        { id: 4, name: 'Premium Ground Coffee', price: 12.00, category: 'Pantry', stock: 35, sku: '50004', barcode: '50004', unit: 'pack' },
+        { id: 1, name: 'Ceylon Black Tea (100g)', price: 450.00, category: 'Beverages', stock: 120, sku: '50001', barcode: '50001', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=500&q=80' },
+        { id: 2, name: 'Espresso Blend (250g)', price: 2500.00, category: 'Beverages', stock: 45, sku: '50002', barcode: '50002', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=500&q=80' },
+        { id: 3, name: 'Fresh Orange Juice (500ml)', price: 850.00, category: 'Beverages', stock: 30, sku: '50003', barcode: '50003', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=500&q=80' },
+        { id: 4, name: 'Whole Wheat Bread', price: 350.00, category: 'Bakery & Dairy', stock: 20, sku: '50004', barcode: '50004', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80' },
+        { id: 5, name: 'Anchor Salted Butter (200g)', price: 1200.00, category: 'Bakery & Dairy', stock: 60, sku: '50005', barcode: '50005', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=500&q=80' },
+        { id: 6, name: 'Fresh Full Cream Milk (1L)', price: 600.00, category: 'Bakery & Dairy', stock: 80, sku: '50006', barcode: '50006', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=500&q=80' },
+        { id: 7, name: 'Basmati Rice (1kg)', price: 1100.00, category: 'Groceries', stock: 100, sku: '50007', barcode: '50007', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=500&q=80' },
+        { id: 8, name: 'Organic Brown Sugar (500g)', price: 550.00, category: 'Groceries', stock: 50, sku: '50008', barcode: '50008', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1581441363689-1f3c3c414635?auto=format&fit=crop&w=500&q=80' },
     ];
 
     const [stockModalProduct, setStockModalProduct] = useState(null);
@@ -75,7 +79,8 @@ const ProductsPage = () => {
                 price: parseFloat(newProduct.price),
                 stock: parseInt(newProduct.stock),
                 memberDiscountPercentage: parseFloat(newProduct.memberDiscountPercentage || 0),
-                minStockLevel: 5
+                minStockLevel: 5,
+                imageUrl: newProduct.imageUrl || null
             };
 
             if (editingProduct) {
@@ -88,7 +93,7 @@ const ProductsPage = () => {
 
             setShowAddForm(false);
             setEditingProduct(null);
-            setNewProduct({ name: '', price: '', category: '', stock: '', barcode: '', unit: 'pcs', memberDiscountPercentage: 0 });
+            setNewProduct({ name: '', price: '', category: '', stock: '', barcode: '', unit: 'pcs', memberDiscountPercentage: 0, imageUrl: '' });
             fetchProducts();
         } catch (error) {
             console.error("Save product error:", error);
@@ -127,7 +132,8 @@ const ProductsPage = () => {
             stock: product.stock,
             barcode: product.sku || product.barcode || '',
             unit: product.unit || 'pcs',
-            memberDiscountPercentage: product.memberDiscountPercentage || 0
+            memberDiscountPercentage: product.memberDiscountPercentage || 0,
+            imageUrl: product.imageUrl || ''
         });
         setShowAddForm(true);
     };
@@ -135,7 +141,7 @@ const ProductsPage = () => {
     const cancelForm = () => {
         setShowAddForm(false);
         setEditingProduct(null);
-        setNewProduct({ name: '', price: '', category: '', stock: '', barcode: '', unit: 'pcs', memberDiscountPercentage: 0 });
+        setNewProduct({ name: '', price: '', category: '', stock: '', barcode: '', unit: 'pcs', memberDiscountPercentage: 0, imageUrl: '' });
     };
 
     const filteredProducts = products.filter(p => {
@@ -194,6 +200,9 @@ const ProductsPage = () => {
                                 <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="md:col-span-2">
                                         <Input label="Product Name" value={newProduct.name} onChange={e => setNewProduct({ ...newProduct, name: e.target.value })} placeholder="e.g. Organic Avocados" required />
+                                    </div>
+                                    <div className="md:col-span-2">
+                                        <Input label="Image URL (Online Image)" value={newProduct.imageUrl} onChange={e => setNewProduct({ ...newProduct, imageUrl: e.target.value })} placeholder="https://images.unsplash.com/photo-..." />
                                     </div>
                                     <Input label="Barcode / SKU" value={newProduct.barcode} onChange={e => setNewProduct({ ...newProduct, barcode: e.target.value })} placeholder="e.g. 50001 or SCAN" required />
                                     <Input label="Category / Description" value={newProduct.category} onChange={e => setNewProduct({ ...newProduct, category: e.target.value })} placeholder="e.g. Produce, Dairy" />
@@ -316,9 +325,9 @@ const ProductsPage = () => {
                         <tr className="bg-white/5 text-slate-400 text-sm uppercase tracking-wider">
                             <th className="px-6 py-4 font-semibold text-[10px]">Product / Barcode (SKU)</th>
                             <th className="px-6 py-4 font-semibold text-[10px]">Category</th>
-                            <th className="px-6 py-4 font-semibold text-[10px]">Price</th>
-                            <th className="px-6 py-4 font-semibold text-[10px]">Stock / Restock</th>
-                            <th className="px-6 py-4 font-semibold text-[10px]">Status</th>
+                            <th className="px-6 py-4 font-semibold text-[10px] text-right">Price</th>
+                            <th className="px-6 py-4 font-semibold text-[10px] text-right">Stock / Restock</th>
+                            <th className="px-6 py-4 font-semibold text-[10px] text-center">Status</th>
                             {isAdmin && <th className="px-6 py-4 font-semibold text-[10px] text-right">Actions</th>}
                         </tr>
                     </thead>
@@ -327,8 +336,12 @@ const ProductsPage = () => {
                             <tr key={product.id} className="hover:bg-white/5 transition-colors group">
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-primary border border-white/10">
-                                            <Package className="w-5 h-5" />
+                                        <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-primary border border-white/10 overflow-hidden">
+                                            {product.imageUrl ? (
+                                                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <Package className="w-5 h-5" />
+                                            )}
                                         </div>
                                         <div>
                                             <p className="font-semibold text-white">{product.name}</p>
@@ -337,10 +350,10 @@ const ProductsPage = () => {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-slate-300">{product.description || product.category || 'General'}</td>
-                                <td className="px-6 py-4 font-bold text-white">{formatPrice(product.price)}</td>
-                                <td className="px-6 py-4">
-                                    <div className="flex flex-col gap-1.5">
-                                        <div className="flex items-center gap-3">
+                                <td className="px-6 py-4 font-bold text-white text-right">{formatPrice(product.price)}</td>
+                                <td className="px-6 py-4 text-right">
+                                    <div className="flex flex-col items-end gap-1.5">
+                                        <div className="flex items-center justify-end gap-3">
                                             <span className={`font-bold ${product.stock < 10 ? 'text-red-400' : 'text-slate-200'}`}>
                                                 {product.stock} <span className="text-[10px] text-slate-500 uppercase">{product.unit || 'units'}</span>
                                             </span>
@@ -362,7 +375,7 @@ const ProductsPage = () => {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-center">
                                     <Badge variant={product.stock < 10 ? 'danger' : 'success'}>
                                         {product.stock < 10 ? 'Low Stock' : 'In Stock'}
                                     </Badge>

@@ -3,6 +3,7 @@ import { Users, Search, Plus, Mail, Phone, Calendar, ArrowRight, Trash2 } from '
 import { Card, Button, Input, Badge } from '../components/ui/Base';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../services/api';
+import { formatDate } from '../utils/dateFormatter';
 
 const CustomersPage = () => {
     const [search, setSearch] = useState('');
@@ -142,7 +143,7 @@ const CustomersPage = () => {
                             </div>
                             <div className="flex items-center gap-3 text-slate-400 text-sm">
                                 <Calendar className="w-4 h-4" />
-                                <span>Last Activity: {customer.lastOrder || (customer.createdAt ? new Date(customer.createdAt).toLocaleDateString() : 'Recent')}</span>
+                                <span>Last Activity: {customer.lastOrder || (customer.createdAt ? formatDate(customer.createdAt) : 'Recent')}</span>
                             </div>
                         </div>
 

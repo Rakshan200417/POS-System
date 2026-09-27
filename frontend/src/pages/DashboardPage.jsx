@@ -19,6 +19,7 @@ import {
 import { Card, Button, Badge } from '../components/ui/Base';
 import { motion } from 'framer-motion';
 import { useCurrency } from '../context/CurrencyContext';
+import { formatDate } from '../utils/dateFormatter';
 
 const StatCard = ({ title, value, trend, icon: Icon, color }) => (
     <Card className="flex flex-col gap-4 relative overflow-hidden group">
@@ -67,15 +68,27 @@ const DashboardPage = () => {
 
             setProductsList(products);
 
-            const totalRevenue = sales.reduce((acc, sale) => acc + (sale.totalAmount ?? sale.totals?.total ?? 0), 0);
-            const totalSales = sales.length;
-            const newCustomers = customers.length;
+            const today = new Date();
+            const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+            
+            const todaySales = sales.filter(sale => {
+                const saleDate = new Date(sale.orderDate || sale.timestamp || Date.now()).getTime();
+                return saleDate >= startOfDay;
+            });
+            const todayCustomers = customers.filter(customer => {
+                const custDate = new Date(customer.createdAt || Date.now()).getTime();
+                return custDate >= startOfDay;
+            });
+
+            const totalRevenue = todaySales.reduce((acc, sale) => acc + (sale.totalAmount ?? sale.totals?.total ?? 0), 0);
+            const totalSales = todaySales.length;
+            const newCustomers = todayCustomers.length;
             const avgTransaction = totalSales > 0 ? totalRevenue / totalSales : 0;
 
             const computedStats = [
-                { title: "Total Revenue", value: formatPrice(totalRevenue), trend: "+0%", icon: DollarSign, color: "text-primary" },
-                { title: "Total Sales", value: totalSales.toString(), trend: "+0%", icon: ShoppingBag, color: "text-secondary" },
-                { title: "New Customers", value: newCustomers.toString(), trend: "+0%", icon: Users, color: "text-green-400" },
+                { title: "Today's Revenue", value: formatPrice(totalRevenue), trend: "+0%", icon: DollarSign, color: "text-primary" },
+                { title: "Today's Sales", value: totalSales.toString(), trend: "+0%", icon: ShoppingBag, color: "text-secondary" },
+                { title: "New Customers Today", value: newCustomers.toString(), trend: "+0%", icon: Users, color: "text-green-400" },
                 { title: "Avg. Transaction", value: formatPrice(avgTransaction), trend: "+0%", icon: TrendingUp, color: "text-yellow-400" }
             ];
 
@@ -129,16 +142,8 @@ const DashboardPage = () => {
                 </div>
 
                 <div className="flex gap-3">
-                    <Button variant="secondary" className="flex items-center gap-2">
-                        <Calendar className="w-5 h-5" />
-                        Last 30 Days
-                    </Button>
                     <Button onClick={fetchDashboardData} className="flex items-center gap-2">
                         Refresh Data
-                    </Button>
-                    <Button onClick={logout} className="flex items-center gap-2 bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30">
-                        <LogOut className="w-4 h-4" />
-                        Logout
                     </Button>
                 </div>
             </div>
@@ -287,7 +292,7 @@ const DashboardPage = () => {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm font-semibold text-white truncate">New Sale: #{sale.invoiceNumber || sale.id}</p>
-                                    <p className="text-xs text-slate-400">{new Date(sale.orderDate || sale.timestamp || Date.now()).toLocaleTimeString()}</p>
+                                    <p className="text-xs text-slate-400">{formatDate(sale.orderDate || sale.timestamp || Date.now())}</p>
                                 </div>
                                 <span className="text-sm font-bold text-primary">+{formatPrice(sale.totalAmount ?? sale.totals?.total ?? 0)}</span>
                             </div>

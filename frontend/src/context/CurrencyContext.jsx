@@ -8,7 +8,7 @@ const defaultStoreSettings = {
     phone: '+1 (555) 019-2834',
     email: 'store@rksuper.com',
     address: '100 Innovation Blvd, Tech City, CA 94016',
-    currency: 'Rs.',
+    currency: 'LKR ',
     exchangeRate: 1.0,
     taxRate: 10.0,
     receiptHeader: 'THANK YOU FOR SHOPPING AT RK SUPER!\nVisit us online: www.rksuper.com',
@@ -18,7 +18,7 @@ const defaultStoreSettings = {
 };
 
 export const CurrencyProvider = ({ children }) => {
-    const [currency, setCurrency] = useState('Rs.');
+    const [currency, setCurrency] = useState('LKR ');
     const [exchangeRate, setExchangeRate] = useState(1.0);
     const [taxRate, setTaxRate] = useState(10.0);
     const [storeName, setStoreName] = useState('RK super');
@@ -56,7 +56,7 @@ export const CurrencyProvider = ({ children }) => {
             const res = await api.get('/settings');
             if (res.data) {
                 const d = res.data;
-                const activeCurrency = d.currency || 'Rs.';
+                const activeCurrency = d.currency || 'LKR ';
                 const activeRate = d.exchangeRate || 1.0;
                 const activeTax = d.taxRate !== undefined ? d.taxRate : 10.0;
                 setCurrency(activeCurrency);

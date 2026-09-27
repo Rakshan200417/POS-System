@@ -34,6 +34,9 @@ public class Product {
     @Column(name = "member_discount_percentage")
     private Double memberDiscountPercentage = 0.0;
 
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
     public Product() {
     }
 
@@ -107,5 +110,13 @@ public class Product {
 
     public void setMemberDiscountPercentage(Double memberDiscountPercentage) {
         this.memberDiscountPercentage = memberDiscountPercentage != null ? memberDiscountPercentage : 0.0;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

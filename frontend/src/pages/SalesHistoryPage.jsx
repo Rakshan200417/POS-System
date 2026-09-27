@@ -3,6 +3,7 @@ import { History, Search, ArrowRight, Calendar, Tag, CheckCircle, Filter } from 
 import { Card, Button, Badge } from '../components/ui/Base';
 import api from '../services/api';
 import { useCurrency } from '../context/CurrencyContext';
+import { formatDate } from '../utils/dateFormatter';
 import { useAuth } from '../context/AuthContext';
 
 const SalesHistoryPage = () => {
@@ -195,7 +196,7 @@ const SalesHistoryPage = () => {
                                             <h3 className="font-bold text-white text-lg">Order #{sale.invoiceNumber || sale.id}</h3>
                                             <p className="text-slate-400 text-sm flex items-center gap-2">
                                                 <Calendar className="w-3 h-3" />
-                                                {new Date(sale.orderDate || sale.timestamp || Date.now()).toLocaleString()}
+                                                {formatDate(sale.orderDate || sale.timestamp || Date.now())}
                                             </p>
                                         </div>
                                     </div>

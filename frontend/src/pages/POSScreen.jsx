@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import api from '../services/api';
 import { useCurrency } from '../context/CurrencyContext';
 import { useAuth } from '../context/AuthContext';
+import { formatDate } from '../utils/dateFormatter';
 
 const POSScreen = () => {
     const { cart, addToCart, removeFromCart, updateQuantity, totals, clearCart, selectedCustomer, setSelectedCustomer } = useCart();
@@ -46,12 +47,14 @@ const POSScreen = () => {
 
     // Mock products for demonstration if API fails or isn't set up
     const mockProducts = [
-        { id: 1, name: 'Quantum Processor X1', price: 599.99, category: 'Hardware', stock: 12 },
-        { id: 2, name: 'Neural Link V2', price: 299.00, category: 'Interface', stock: 5 },
-        { id: 3, name: 'Neon Keyboard', price: 149.50, category: 'Peripherals', stock: 25 },
-        { id: 4, name: 'Holographic Monitor', price: 899.00, category: 'Hardware', stock: 3 },
-        { id: 5, name: 'Cortex Cooler', price: 75.00, category: 'Hardware', stock: 50 },
-        { id: 6, name: 'Fusion Drive', price: 450.00, category: 'Storage', stock: 8 },
+        { id: 1, name: 'Ceylon Black Tea (100g)', price: 450.00, category: 'Beverages', stock: 120, sku: '50001', barcode: '50001', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=500&q=80' },
+        { id: 2, name: 'Espresso Blend (250g)', price: 2500.00, category: 'Beverages', stock: 45, sku: '50002', barcode: '50002', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=500&q=80' },
+        { id: 3, name: 'Fresh Orange Juice (500ml)', price: 850.00, category: 'Beverages', stock: 30, sku: '50003', barcode: '50003', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=500&q=80' },
+        { id: 4, name: 'Whole Wheat Bread', price: 350.00, category: 'Bakery & Dairy', stock: 20, sku: '50004', barcode: '50004', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80' },
+        { id: 5, name: 'Anchor Salted Butter (200g)', price: 1200.00, category: 'Bakery & Dairy', stock: 60, sku: '50005', barcode: '50005', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=500&q=80' },
+        { id: 6, name: 'Fresh Full Cream Milk (1L)', price: 600.00, category: 'Bakery & Dairy', stock: 80, sku: '50006', barcode: '50006', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=500&q=80' },
+        { id: 7, name: 'Basmati Rice (1kg)', price: 1100.00, category: 'Groceries', stock: 100, sku: '50007', barcode: '50007', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=500&q=80' },
+        { id: 8, name: 'Organic Brown Sugar (500g)', price: 550.00, category: 'Groceries', stock: 50, sku: '50008', barcode: '50008', unit: 'pcs', imageUrl: 'https://images.unsplash.com/photo-1581441363689-1f3c3c414635?auto=format&fit=crop&w=500&q=80' },
     ];
 
     const fetchData = async () => {
@@ -172,7 +175,7 @@ const POSScreen = () => {
             // Prepare receipt data
             setReceiptData({
                 invoiceNumber: savedOrder.invoiceNumber || ('INV-' + Date.now().toString().slice(-6)),
-                orderDate: new Date().toLocaleString(),
+                orderDate: formatDate(new Date()),
                 cashierName: user?.name || user?.username || 'Staff Cashier',
                 customerName: selectedCustomer ? selectedCustomer.name : 'Walk-in Customer',
                 items: [...cart],
@@ -244,24 +247,35 @@ const POSScreen = () => {
                                     whileHover={{ y: -5 }}
                                     onClick={() => addToCart(product)}
                                 >
-                                    <Card className="h-full cursor-pointer hover:border-primary/50 transition-colors flex flex-col justify-between group">
-                                        <div>
-                                            <div className="flex justify-between items-start mb-4">
-                                                <Badge variant={product.stock < 10 ? 'warning' : 'info'}>
-                                                    {product.description || product.category || 'General'}
-                                                </Badge>
-                                                <span className="text-[10px] text-primary font-mono tracking-widest">{product.sku || product.barcode || `#${product.id}`}</span>
-                                            </div>
-                                            <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
-                                                {product.name}
-                                            </h3>
-                                            <p className="text-2xl font-bold bg-neon-gradient bg-clip-text text-transparent mt-2">
-                                                {formatPrice(product.price)}
-                                            </p>
+                                    <Card className="h-full cursor-pointer hover:border-primary/50 transition-colors flex flex-col p-0 overflow-hidden group">
+                                        <div className="h-40 bg-white/5 relative overflow-hidden flex-shrink-0">
+                                            {product.imageUrl ? (
+                                                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center text-slate-500">
+                                                    <Tag className="w-8 h-8 opacity-50" />
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
-                                            <span className="text-xs text-slate-400">Stock: {product.stock} {product.unit || 'units'}</span>
-                                            <Plus className="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        <div className="flex-1 flex flex-col justify-between p-4">
+                                            <div>
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <Badge variant={product.stock < 10 ? 'warning' : 'info'}>
+                                                        {product.description || product.category || 'General'}
+                                                    </Badge>
+                                                    <span className="text-[10px] text-primary font-mono tracking-widest">{product.sku || product.barcode || `#${product.id}`}</span>
+                                                </div>
+                                                <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
+                                                    {product.name}
+                                                </h3>
+                                                <p className="text-xl font-bold bg-neon-gradient bg-clip-text text-transparent mt-1">
+                                                    {formatPrice(product.price)}
+                                                </p>
+                                            </div>
+                                            <div className="mt-4 pt-3 border-t border-white/5 flex justify-between items-center">
+                                                <span className="text-xs text-slate-400">Stock: {product.stock} {product.unit || 'units'}</span>
+                                                <Plus className="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            </div>
                                         </div>
                                     </Card>
                                 </motion.div>
