@@ -34,7 +34,7 @@ CREATE TABLE `products` (
   `price` DOUBLE NOT NULL,
   `stock` INT NOT NULL DEFAULT 0,
   `min_stock_level` INT DEFAULT 5,
-  `image_url` VARCHAR(500) DEFAULT NULL,
+  `image_url` LONGTEXT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

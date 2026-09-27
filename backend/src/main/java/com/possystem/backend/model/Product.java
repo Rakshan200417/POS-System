@@ -34,7 +34,7 @@ public class Product {
     @Column(name = "member_discount_percentage")
     private Double memberDiscountPercentage = 0.0;
 
-    @Column(name = "image_url", length = 500)
+    @Column(name = "image_url", columnDefinition = "LONGTEXT")
     private String imageUrl;
 
     public Product() {

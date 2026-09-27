@@ -201,8 +201,31 @@ const ProductsPage = () => {
                                     <div className="md:col-span-2">
                                         <Input label="Product Name" value={newProduct.name} onChange={e => setNewProduct({ ...newProduct, name: e.target.value })} placeholder="e.g. Organic Avocados" required />
                                     </div>
-                                    <div className="md:col-span-2">
-                                        <Input label="Image URL (Online Image)" value={newProduct.imageUrl} onChange={e => setNewProduct({ ...newProduct, imageUrl: e.target.value })} placeholder="https://images.unsplash.com/photo-..." />
+                                    <div className="md:col-span-2 flex flex-col gap-1">
+                                        <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold px-1">Product Image (URL or Upload)</label>
+                                        <div className="flex gap-2 items-center">
+                                            <input 
+                                                type="text" 
+                                                className="glass-input flex-1" 
+                                                placeholder="https://images..." 
+                                                value={newProduct.imageUrl || ''} 
+                                                onChange={e => setNewProduct({ ...newProduct, imageUrl: e.target.value })} 
+                                            />
+                                            <span className="text-slate-500 text-sm font-bold">OR</span>
+                                            <input 
+                                                type="file" 
+                                                accept="image/*" 
+                                                onChange={(e) => {
+                                                    const file = e.target.files[0];
+                                                    if (file) {
+                                                        const reader = new FileReader();
+                                                        reader.onloadend = () => setNewProduct({ ...newProduct, imageUrl: reader.result });
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                }}
+                                                className="text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary/20 file:text-primary hover:file:bg-primary/30 cursor-pointer"
+                                            />
+                                        </div>
                                     </div>
                                     <Input label="Barcode / SKU" value={newProduct.barcode} onChange={e => setNewProduct({ ...newProduct, barcode: e.target.value })} placeholder="e.g. 50001 or SCAN" required />
                                     <Input label="Category / Description" value={newProduct.category} onChange={e => setNewProduct({ ...newProduct, category: e.target.value })} placeholder="e.g. Produce, Dairy" />
